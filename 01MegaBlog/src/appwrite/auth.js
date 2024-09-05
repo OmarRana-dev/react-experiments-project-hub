@@ -38,6 +38,27 @@ export class AuthService {
       throw new Error(error.message);
     }
   }
+
+  async getCurrentUser() {
+    try {
+      const user = await this.account.get();
+      // Logged in
+      return user;
+    } catch (err) {
+      // Not logged in
+      throw new Error(err.message);
+    }
+  }
+
+  async logout() {
+    try {
+      await this.account.deleteSessions();
+      // Logged out
+      return true;
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  }
 }
 
 const authService = new AuthService();
