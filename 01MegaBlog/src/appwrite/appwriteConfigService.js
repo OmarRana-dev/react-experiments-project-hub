@@ -1,4 +1,4 @@
-import config from "../config/config";
+import conf from "../conf/conf";
 import { Client, ID, Databases, Storage, Query } from "appwrite";
 
 export class Service {
@@ -8,22 +8,28 @@ export class Service {
 
   constructor() {
     this.client
-      .setEndpoint(config.appwrite_URL)
-      .setProject(config.appwritePROJECT_ID);
+      .setEndpoint(conf.appwrite_URL)
+      .setProject(conf.appwritePROJECT_ID);
     this.databases = new Databases(this.client);
     this.storage = new Storage(this.client);
   }
 
-  async createPost({ title, content, image, status, userId }) {
+  async createPost({
+    title,
+    content,
+    featuredImage,
+    status,
+    userId,
+  }) {
     try {
       const response = await this.databases.createDocument(
-        config.appwriteDATABASE_ID,
-        config.appwriteCOLLECTION_ID,
+        conf.appwriteDATABASE_ID,
+        conf.appwriteCOLLECTION_ID,
         ID.unique(),
         {
           title,
           content,
-          image,
+          featuredImage,
           status,
           userId,
         }
@@ -34,16 +40,19 @@ export class Service {
     }
   }
 
-  async updatePost(DocumentID, { title, content, image, status }) {
+  async updatePost(
+    DocumentID,
+    { title, content, featuredImage, status }
+  ) {
     try {
       const response = await this.databases.updateDocument(
-        config.appwriteDATABASE_ID,
-        config.appwriteCOLLECTION_ID,
+        conf.appwriteDATABASE_ID,
+        conf.appwriteCOLLECTION_ID,
         DocumentID,
         {
           title,
           content,
-          image,
+          featuredImage,
           status,
         }
       );
@@ -56,8 +65,8 @@ export class Service {
   async deletePost(DocumentID) {
     try {
       const response = await this.databases.deleteDocument(
-        config.appwriteDATABASE_ID,
-        config.appwriteCOLLECTION_ID,
+        conf.appwriteDATABASE_ID,
+        conf.appwriteCOLLECTION_ID,
         DocumentID
       );
       return response;
@@ -69,8 +78,8 @@ export class Service {
   async getPost(DocumentID) {
     try {
       const response = await this.databases.getDocument(
-        config.appwriteDATABASE_ID,
-        config.appwriteCOLLECTION_ID,
+        conf.appwriteDATABASE_ID,
+        conf.appwriteCOLLECTION_ID,
         DocumentID
       );
       return response;
@@ -82,8 +91,8 @@ export class Service {
   async getPosts(queries = [Query.equal("status", "active")]) {
     try {
       const response = await this.databases.listDocuments(
-        config.appwriteDATABASE_ID,
-        config.appwriteCOLLECTION_ID,
+        conf.appwriteDATABASE_ID,
+        conf.appwriteCOLLECTION_ID,
         queries
       );
       return response;
@@ -92,11 +101,10 @@ export class Service {
     }
   }
 
-  // file upload service
   async uploadFile(file) {
     try {
       const response = await this.storage.createFile(
-        config.appwriteBUCKET_ID,
+        conf.appwriteBUCKET_ID,
         ID.unique(),
         file
       );
@@ -109,7 +117,7 @@ export class Service {
   async deleteFile(fileId) {
     try {
       const response = await this.storage.deleteFile(
-        config.appwriteBUCKET_ID,
+        conf.appwriteBUCKET_ID,
         fileId
       );
       return response;
@@ -120,12 +128,12 @@ export class Service {
 
   async getFilePreview(fileId) {
     const response = this.storage.getFilePreview(
-      config.appwriteBUCKET_ID,
+      conf.appwriteBUCKET_ID,
       fileId
     );
     return response;
   }
 }
 
-const service = new Service();
-export default service;
+const appwriteService = new Service();
+export default appwriteService;

@@ -1,15 +1,39 @@
-import "./App.css";
+import React, { useEffect, useState } from "react";
+import authService from "./appwrite/authService";
+import { useDispatch } from "react-redux";
+import { login, logout } from "./store/authSlice";
+import { Outlet } from "react-router-dom";
+import { Header, Footer } from "./components";
 
-function App() {
-  console.log(import.meta.env.VITE_APPWRITE_URL);
+const App = () => {
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
-  return (
-    <>
-      <h1 className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </h1>
-    </>
-  );
-}
+  useEffect(() => {
+    // Check if user is already logged in by calling getCurrentUser
+    authService
+      .getCurrentUser()
+      .then((data) => {
+        if (data) {
+          console.log("User logged in:", data);
+          dispatch(login(data)); // If user is logged in, dispatch login action
+        } else {
+          console.log("No session found, please log in.");
+          dispatch(logout()); // If no session, user needs to log in
+        }
+      })
+      .finally(() => setLoading(false)); // Set loading state after checking session
+  }, []);
+
+  return !loading ? (
+    <div>
+      <Header />
+      <main>
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  ) : null;
+};
 
 export default App;
