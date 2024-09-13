@@ -4,7 +4,7 @@ import { Container, PostForm } from "../components";
 function AddPost() {
   return (
     <div className="py-8">
-      <Container>
+      <Container >
         <h2 className="text-lg font-medium text-gray-900">
           Add a Post
         </h2>

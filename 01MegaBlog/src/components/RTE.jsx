@@ -17,13 +17,14 @@ export default function RTE({
       <Controller
         name={name || "content"}
         control={control}
-        render={({ field: { onChange } }) => {
+        render={({ field: { onChange } }) => (
           <Editor
+            apiKey="tfdjjqcm17779c0fyzatj0wldp3cldndde2d9mh51mqy8w49"
             initialValue={defaultValue}
             init={{
               initialValue: defaultValue,
               height: 500,
-              menubar: false,
+              menubar: true,
               plugins: [
                 "advlist",
                 "autolink",
@@ -45,16 +46,13 @@ export default function RTE({
                 "wordcount",
               ],
               toolbar:
-                "undo redo | blocks | " +
-                "bold italic forecolor | alignleft aligncenter " +
-                "alignright alignjustify | bullist numlist outdent indent | " +
-                "removeformat | help",
+                "undo redo | blocks | bold italic forecolor | alignleft aligncenter |alignright alignjustify | bullist numlist outdent indent | removeformat | help",
               content_style:
                 "body {font-family:Helvetica,sans-serif,Arial; font-size:14px}",
             }}
             onEditorChange={onChange}
-          />;
-        }}
+          />
+        )}
       />
     </div>
   );

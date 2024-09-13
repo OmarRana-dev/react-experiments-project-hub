@@ -21,6 +21,11 @@ export class Service {
     status,
     userId,
   }) {
+    console.log(title);
+    console.log(content);
+    console.log(featuredImage);
+    console.log(status);
+    console.log(userId);
     try {
       const response = await this.databases.createDocument(
         conf.appwriteDATABASE_ID,

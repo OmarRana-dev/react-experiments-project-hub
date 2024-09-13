@@ -3,6 +3,8 @@ import React, { useId, forwardRef } from "react";
 function Select({ options, label, className = "", ...rest }, ref) {
   const id = useId();
 
+  // console.log(options);
+
   return (
     <div className="w-full">
       {label && (
@@ -20,10 +22,13 @@ function Select({ options, label, className = "", ...rest }, ref) {
         ref={ref}
         {...rest}
       >
+        ;
         {options?.map((option) => {
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>;
+          return (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          );
         })}
       </select>
     </div>

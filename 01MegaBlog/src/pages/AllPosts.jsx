@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import appwriteService from "../appwrite/appwriteConfigService";
 import { Container, PostCart } from "../components";
 
-function AllPost() {
+function AllPosts() {
   const [posts, setPosts] = useState([]);
+
   useEffect(() => {
     appwriteService
       .getPosts([])
@@ -15,14 +16,15 @@ function AllPost() {
       .catch((error) => {
         console.error(error);
       });
-  });
+  }, []);
+
   return (
     <div className="w-full py-8">
       <Container>
         <div className="flex flex-wrap">
           {posts.map((post) => (
             <div key={post.$id} className="p-2 w-1/4">
-              <PostCart post={post} />
+              <PostCart {...post} />
             </div>
           ))}
         </div>
@@ -32,4 +34,4 @@ function AllPost() {
   );
 }
 
-export default AllPost;
+export default AllPosts;

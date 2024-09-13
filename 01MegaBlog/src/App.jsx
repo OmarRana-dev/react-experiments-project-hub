@@ -28,7 +28,7 @@ const App = () => {
   return !loading ? (
     <div>
       <Header />
-      <main>
+      <main className="h-screen">
         <Outlet />
       </main>
       <Footer />

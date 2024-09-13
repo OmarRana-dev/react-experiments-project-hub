@@ -10,7 +10,7 @@ import Input from "./Input";
 import Select from "./Select";
 import RTE from "./RTE";
 import Signup from "./Signup";
-import Protected from "./AuthLayout";
+import AuthLayout from "./AuthLayout";
 import PostForm from "./Post-Form/PostForm";
 
 export {
@@ -26,6 +26,6 @@ export {
   Select,
   RTE,
   Signup,
-  Protected,
+  AuthLayout,
   PostForm,
 };
